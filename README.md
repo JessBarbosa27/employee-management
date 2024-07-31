@@ -33,3 +33,7 @@ This project is a simple Employee Management System developed using Spring Boot.
    ```bash
    git clone https://github.com/your-repo/employee-management.git
    cd employee-management
+   
+## Swagger
+
+1. **Access Swagger:** http://localhost:8080/swagger-ui/index.html#/

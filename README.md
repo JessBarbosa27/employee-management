@@ -37,3 +37,10 @@ This project is a simple Employee Management System developed using Spring Boot.
 ## Swagger
 
 1. **Access Swagger:** http://localhost:8080/swagger-ui/index.html#/
+
+## H2 Database
+
+1. **Access DB:** http://localhost:8080/h2-console
+2. Credentials:
+   - username: sa
+   - password: password

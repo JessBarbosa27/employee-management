@@ -31,7 +31,7 @@ This project is a simple Employee Management System developed using Spring Boot.
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/your-repo/employee-management.git
+   git clone [https://github.com/your-repo/employee-management.git](https://github.com/JessBarbosa27/employee-management)
    cd employee-management
    
 ## Swagger

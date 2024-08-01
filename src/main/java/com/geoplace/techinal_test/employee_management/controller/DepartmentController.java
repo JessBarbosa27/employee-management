@@ -1,8 +1,8 @@
 package com.geoplace.techinal_test.employee_management.controller;
 
+import com.geoplace.techinal_test.employee_management.dto.CreateDepartmentDTO;
 import com.geoplace.techinal_test.employee_management.model.Department;
 import com.geoplace.techinal_test.employee_management.service.DepartmentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,8 +11,11 @@ import java.util.List;
 @RequestMapping("/departments")
 public class DepartmentController {
 
-    @Autowired
-    private DepartmentService departmentService;
+    private final DepartmentService departmentService;
+
+    public DepartmentController(DepartmentService departmentService) {
+        this.departmentService = departmentService;
+    }
 
     @GetMapping
     public List<Department> getAllDepartments() {
@@ -20,7 +23,8 @@ public class DepartmentController {
     }
 
     @PostMapping
-    public Department createDepartment(@RequestBody Department department) {
-        return departmentService.saveDepartment(department);
+    public Department createDepartment(@RequestBody CreateDepartmentDTO createDepartmentDTO) {
+        return departmentService.saveDepartment(createDepartmentDTO);
     }
+
 }

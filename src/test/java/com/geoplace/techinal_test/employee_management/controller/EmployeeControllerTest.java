@@ -2,10 +2,13 @@ package com.geoplace.techinal_test.employee_management.controller;
 
 import com.geoplace.techinal_test.employee_management.model.Employee;
 import com.geoplace.techinal_test.employee_management.service.EmployeeServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -18,17 +21,20 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@WebMvcTest(EmployeeController.class)
 class EmployeeControllerTest {
 
+    @Autowired
     private MockMvc mockMvc;
 
-    @Mock
+    @MockBean
     private EmployeeServiceImpl employeeService;
 
     @InjectMocks
     private EmployeeController employeeController;
 
-    EmployeeControllerTest() {
+    @BeforeEach
+    void setUp() {
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.standaloneSetup(employeeController).build();
     }
@@ -65,23 +71,22 @@ class EmployeeControllerTest {
     }
 
     @Test
-    public void getEmployeeById_shouldReturnNotFound_whenEmployeeDoesNotExist() throws Exception {
+    void getEmployeeById_shouldReturnNotFound_whenEmployeeDoesNotExist() throws Exception {
         Long employeeId = 1L;
         when(employeeService.getEmployeeById(employeeId)).thenThrow(new RuntimeException("Employee not found with id: " + employeeId));
 
-        mockMvc.perform(get("/api/employees/{id}", employeeId))
+        mockMvc.perform(get("/employees/{id}", employeeId))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     void deleteEmployee_shouldReturnOk_whenEmployeeExists() throws Exception {
-        doNothing().when(employeeService).deleteEmployee(1L);
+        Long employeeId = 1L;
+        when(employeeService.deleteEmployee(employeeId)).thenReturn(true);
 
-        mockMvc.perform(delete("/employees/1"))
+        mockMvc.perform(delete("/employees/{id}", employeeId))
                 .andExpect(status().isOk());
 
-        verify(employeeService, times(1)).deleteEmployee(1L);
+        verify(employeeService, times(1)).deleteEmployee(employeeId);
     }
-
-
 }

@@ -1,8 +1,8 @@
 package com.geoplace.techinal_test.employee_management.controller;
 
+import com.geoplace.techinal_test.employee_management.dto.CreateEmployeeDTO;
 import com.geoplace.techinal_test.employee_management.model.Employee;
 import com.geoplace.techinal_test.employee_management.service.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +13,11 @@ import java.util.List;
 @RequestMapping("/employees")
 public class EmployeeController {
 
-    @Autowired
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
+
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
 
     @GetMapping
     public List<Employee> getAllEmployees() {
@@ -38,22 +41,17 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public Employee createEmployee(@RequestBody Employee employee) {
-        return employeeService.saveEmployee(employee);
+    public Employee createEmployee(@RequestBody CreateEmployeeDTO createEmployeeDTO) {
+        return employeeService.createEmployee(createEmployeeDTO);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employeeDetails) {
-        Employee employee = employeeService.getEmployeeById(id);
-        employee.setName(employeeDetails.getName());
-        employee.setSkills(employeeDetails.getSkills());
-        employee.setDepartment(employeeDetails.getDepartment());
-        return ResponseEntity.ok(employeeService.saveEmployee(employee));
+    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody CreateEmployeeDTO createEmployeeDTO) {
+        return ResponseEntity.ok(employeeService.updateEmployee(id, createEmployeeDTO));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> deleteEmployee(@PathVariable Long id) {
-        employeeService.deleteEmployee(id);
-        return ResponseEntity.ok(true);
+        return ResponseEntity.ok(employeeService.deleteEmployee(id));
     }
 }

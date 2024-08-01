@@ -1,6 +1,7 @@
 package com.geoplace.techinal_test.employee_management.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class Department {
     private String name;
 
     @OneToMany(mappedBy = "department")
+    @JsonIgnore
     private List<Employee> employees;
 
     public Long getId() {
